@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}
+Create Farmer
+{% endblock title %}
+
+{% block page_title %}
+Create Farmer
+{% endblock page_title %}
+{% block breadcrumb %}
+<ol class="breadcrumb m-0">
+    <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboards</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'farmer-list' %}">Farmer List</a></li>
+    <li class="breadcrumb-item active">Create Farmer</li>
+</ol>{% endblock breadcrumb %}
+
+{% block content %}
+<div class="row">
+    <dic class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-lg-6">
+                        <h2>Create New Farmer</h2>
+                    </div>
+                </div>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    {{form}}
+                    <input type="submit" value="save">
+                </form>
+            </div>
+        </div>
+    </dic>
+</div>
+{% endblock content %}

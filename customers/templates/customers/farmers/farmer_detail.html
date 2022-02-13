@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% load crispy_forms_tags %}
+{% block title %}
+{{farmer.farmer_name}} Detail
+{% endblock title %}
+
+{% block page_title %}
+{{farmer.farmer_name}} Detail
+{% endblock page_title %}
+{% block breadcrumb %}
+<ol class="breadcrumb m-0">
+    <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboards</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'farmer-list' %}">Farmer List</a></li>
+    <li class="breadcrumb-item active">{{farmer.farmer_name}} Detail</li>
+</ol>{% endblock breadcrumb %}
+
+{% block content %}
+<div class="row">
+    <dic class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-lg-6">
+                        <h2>{{farmer.farmer_name}} Detail</h2>
+                    </div>
+                </div>
+               <!--Start the topside of details and for counting  -->
+               <div class="row">
+                <div class="col-md-12 mt-4">
+                    <div class="card">
+                        <div class="card-header bg-info text-white">
+                           <span style="color: white; font-size:20px;">Counts of Buys</span>
+                        </div>
+                        <div class="card-body ">
+                            <div class="row ">
+                                <div class="col-md-3">
+                                    <a class="text-decoration-none text-dark" href="">
+                                        <div class="card my-card shadow">
+                                            <div class="card-body text-center">
+                                                <h4>Products <i class="fas fa-box"></i></h4>
+                                                <h3>{{total_buy}}</h3>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a class="text-decoration-none text-dark" href="">
+                                        <div class="card my-card shadow">
+                                            <div class="card-body text-center">
+                                                <h4>Total Amount <i class="bx bx-money font-size-24 align-middle"></i></h4>
+                                                <h3>{{ total }}</h3>
+                                                
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a class="text-decoration-none text-dark" href="">
+                                        <div class="card my-card shadow">
+                                            <div class="card-body text-center">
+                                                <h4>Paid Amount <i class="bx bx-money font-size-24 align-middle"></i></h4>
+                                                <h3>{{paid}}</h3>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                
+                                <div class="col-md-3">
+                                    <a class="text-decoration-none text-dark" href="">
+                                        <div class="card my-card shadow">
+                                            <div class="card-body text-center">
+                                                <h4>Remined Amount <i  class="bx bx-money font-size-24 align-middle"></i></h4>
+                                                <h3>{{ remain }}</h3>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+               <!-- the end of topside -->
+                <form id="pet_form" method="post" action="." enctype="multipart/form-data">
+
+                    {% csrf_token %}
+        
+                   
+        
+                    {{ formset.management_form }}
+                    <div class="row">
+                        {% for form in formset %}
+                        <div class="image-form d-flex justify-content-between"> 
+                            {{ form|crispy }}                             
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <input type="submit" name="submit" value="Submit" class="btn btn-primary" />
+                    <button id="add-image-form" class="btn btn-primary my-3">
+                        <i class="bx bx-plus"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </dic>
+</div>
+
+
+<script>
+    const addImageFormBtn = document.querySelector("#add-image-form");
+    const submitFormBtn = document.querySelector('[type="submit"]');
+
+    const imageForm = document.getElementsByClassName("image-form");
+    const mainForm = document.querySelector("#pet_form");
+
+    const totalForms = document.querySelector("#id_form-TOTAL_FORMS");
+
+let formCount = imageForm.length - 1;
+
+addImageFormBtn.addEventListener("click", function (event) {
+    event.preventDefault();
+
+    const newImageForm = imageForm[0].cloneNode(true);
+
+    const formRegex = RegExp(`form-(\\d){1}-`, 'g');
+    formCount++;
+
+    newImageForm.innerHTML = newImageForm.innerHTML.replace(formRegex, `form-${formCount}-`);
+    mainForm.insertBefore(newImageForm, submitFormBtn);
+    totalForms.setAttribute('value', `${formCount + 1}`);
+});
+function updateForms() {
+    let count = 0;
+    for (let form of imageForm) {
+        const formRegex = RegExp(`form-(\\d){1}-`, 'g');
+        form.innerHTML = form.innerHTML.replace(formRegex, `form-${count++}-`)
+    }
+}
+mainForm.addEventListener("click", function (event) {
+    if (event.target.classList.contains("delete-image-form")) {
+        event.preventDefault();
+        event.target.parentElement.remove();
+        formCount--;
+        totalForms.setAttribute('value', `${formCount + 1}`);
+
+        updateForms();
+    }
+});
+</script>
+{% endblock content %}

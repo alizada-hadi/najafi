@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}
+Create Product
+{% endblock title %}
+
+{% block page_title %}
+Create Product
+{% endblock page_title %}
+{% block breadcrumb %}
+<ol class="breadcrumb m-0">
+    <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboards</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'product-list' %}">Product List</a></li>
+    
+    {% if products %}
+    <li class="breadcrumb-item active">Update Product</li>
+    {% else %}
+    <li class="breadcrumb-item active">Create Product</li>
+    
+    {% endif %}
+</ol>{% endblock breadcrumb %}
+
+{% block content %}
+{% include 'links/css/css.html' %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+            <div class="card-body">
+                <div>
+                    <a href="{% url 'product-list' %}" class="btn btn-dark btn-lg mb-4">Go Back
+                        <i class="bx bx-arrow-left"></i>
+                    </a>
+                </div>
+                {% if products %}
+                <h2 class="mb-2">Update Product</h2>
+                {% else %}
+                <h2 class="mb-2">Create New Product</h2>
+                {% endif %}
+                <hr>
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label for="" class="font-size-17">ProductName En</label>
+                            {% render_field forms.product_name_en class="form-control font-size-16" placeholder="Ali" %}
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="" class="font-size-17">ProductName Fa</label>
+                            {% render_field forms.product_name_fa class="form-control font-size-16" placeholder="Karimi" %}
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="" class="font-size-17">Sort 1,2,3</label>
+                            {% render_field forms.quality class="form-control font-size-16" placeholder="Type your phone number" %}
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="" class="font-size-17">Sort A,B</label>
+                            {% render_field forms.quality1 class="form-control font-size-16" placeholder="Your national cart ID" %}
+                        </div>
+                        
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-lg-3">
+                            <label for="" class="font-size-17">Qunatity</label>
+                            {% render_field forms.quantity class="form-control font-size-16"  %}
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="" class="font-size-17">Unit</label>
+                            {% render_field forms.unite  class="form-control font-size-16"  %}
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="" class="font-size-17">Price</label>
+                            {% render_field forms.price class="form-control font-size-16" placeholder="Employee Address" %}
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="" class="font-size-17">Image</label>
+                            {% render_field forms.photo class="form-control font-size-16"  %}
+                        </div>
+                        
+                    </div>
+                    <button class="btn btn-primary btn-md font-size-18 mt-2">Save</button>
+                </form>
+            </div>
+            </div>
+
+         </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% load crispy_forms_tags %}
+{% block title %}
+{{farmer.farmer_name}} Detail
+{% endblock title %}
+
+{% block page_title %}
+{{farmer.farmer_name}} Detail
+{% endblock page_title %}
+{% block breadcrumb %}
+<ol class="breadcrumb m-0">
+    <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboards</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'farmer-list' %}">Farmer List</a></li>
+    <li class="breadcrumb-item active">{{farmer.farmer_name}} Detail</li>
+</ol>{% endblock breadcrumb %}
+
+{% block content %}
+<div class="row">
+    <dic class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-lg-6">
+                        <h2>{{farmer.farmer_name}} Detail</h2>
+                    </div>
+                </div>
+               <!--Start the topside of details and for counting  -->
+               <div class="row">
+                <div class="col-md-12 mt-4">
+                    <div class="card">
+                        <div class="card-header bg-info text-white">
+                           <span style="color: white; font-size:20px;">Counts of Buys</span>
+                        </div>
+                        <div class="card-body ">
+                            <div class="row ">
+                                <div class="col-md-3">
+                                    <a class="text-decoration-none text-dark" href="">
+                                        <div class="card my-card shadow">
+                                            <div class="card-body text-center">
+                                                <h4>Sales <i class="fas fa-box"></i></h4>
+                                                <h3>{{total_sale}}</h3>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a class="text-decoration-none text-dark" href="">
+                                        <div class="card my-card shadow">
+                                            <div class="card-body text-center">
+                                                <h4>Total Amount <i class="bx bx-money font-size-24 align-middle"></i></h4>
+                                                <h3>{{ total }}</h3>
+                                                
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a class="text-decoration-none text-dark" href="">
+                                        <div class="card my-card shadow">
+                                            <div class="card-body text-center">
+                                                <h4>Paid Amount <i class="bx bx-money font-size-24 align-middle"></i></h4>
+                                                <h3>{{paid}}</h3>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                
+                                <div class="col-md-3">
+                                    <a class="text-decoration-none text-dark" href="">
+                                        <div class="card my-card shadow">
+                                            <div class="card-body text-center">
+                                                <h4>Remined Amount <i  class="bx bx-money font-size-24 align-middle"></i></h4>
+                                                <h3>{{ remain }}</h3>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+               <!-- the end of topside -->
+               
+            </div>
+        </div>
+    </dic>
+</div>
+
+{% endblock content %}

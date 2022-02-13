@@ -1,0 +1,51 @@
+<div class="vertical-menu">
+
+    <div data-simplebar class="h-100">
+
+        <!--- Sidemenu -->
+        <div id="sidebar-menu">
+            <!-- Left Menu Start -->
+            <ul class="metismenu list-unstyled" id="side-menu">
+                <li class="menu-title font-size-18 active" key="t-menu">Menu</li>
+                </li>
+                <li>
+                    <a href="{% url 'product-list' %}" class="waves-effect">
+                        <i class="bx bxs-store font-size-24"></i>
+                        <span class="font-size-18" key="t-customer">Product</span>
+                    </a>
+                </li>
+                    <li>
+                    <a href="{% url 'customer-list' %}" class="waves-effect">
+                        <i class="bx bxs-user-rectangle font-size-24"></i>
+                        <span class="font-size-18" key="t-customer">Customer</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'farmer-list' %}" class="waves-effect">
+                        <i class="bx bxs-group font-size-24"></i>
+                        <span class="font-size-18">Farmer</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url  'employee-list' %}" class="waves-effect">
+                        <i class="bx bxs-user font-size-24"></i>
+                        <span class="font-size-18"  key="t-user">Employee</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url  'buy-list' %}" class="waves-effect">
+                        <i class="bx bxs-cart font-size-24"></i>
+                        <span class="font-size-18" key="t-cart">Buy</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url  'sale-list' %}" class="waves-effect">
+                        <i class="bx bxs-cart font-size-24"></i>
+                        <span class="font-size-18" key="t-cart">Sale</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- Sidebar -->
+    </div>
+</div>

@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% load crispy_forms_tags %}
+{% block title %}
+{{buys.name}} Detail
+{% endblock title %}
+
+{% block page_title %}
+{{buys.name}} Detail
+{% endblock page_title %}
+{% block breadcrumb %}
+<ol class="breadcrumb m-0">
+    <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboards</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'buy-list' %}">Buy List</a></li>
+    <li class="breadcrumb-item active">{{buys.name}} Detail</li>
+</ol>{% endblock breadcrumb %}
+
+{% block content %}
+<div class="row">
+    <dic class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-lg-6">
+                        <h2>{{buys.name}} Detail</h2>
+                    </div>
+                </div>
+                <table id="datatable" class="table table-bordered dt-responsive nowrap"
+                style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                <thead>
+                    <tr style="text-align:center">
+                        
+                        <th class="font-size-17">farmer</th>
+                        <th class="font-size-17">Buyer</th>
+                        
+                        <th class="font-size-17">Address</th>
+                        <th class="font-size-17">Price</th>
+                        <th class="font-size-17">Total Amount</th>
+                        <th class="font-size-17">Paid Amount</th>
+                        <th class="font-size-17">Remined Amount</th>
+                        <th class="font-size-17">Description</th>
+                        </tr>
+                </thead>
+
+                <tbody>
+                    <tr style="text-align:center" >  
+                        
+                    <td class="font-size-15">{{ buys.farmer.farmer_name}}</td>
+                    <td class="font-size-15">{{buys.buyer}}</td>
+                    <td class="font-size-15">{{ buys.address}}</td>
+                    <td class="font-size-15">{{ buys.price}}</td>
+                    <td class="font-size-15">{{ buys.total_amount}}</td>
+                    <td class="font-size-15">{{ buys.paid_amount}}</td>
+                    <td class="font-size-15">{{ buys.remined_amount}}</td>
+                    <td class="font-size-15">{{ buys.description}}</td>
+                   
+                </tr>
+            
+                </tbody>
+            </table>
+                    <input type="submit" name="submit" value="Submit" class="btn btn-primary" />
+                    <button id="add-image-form" class="btn btn-primary my-3">
+                        <i class="bx bx-plus"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </dic>
+</div>
+
+{% endblock content %}

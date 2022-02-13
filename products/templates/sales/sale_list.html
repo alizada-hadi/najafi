@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Sale List {% endblock title %}
+{% block page_title %}
+    Sale List
+{% endblock page_title %}
+{% block breadcrumb %}
+<ol class="breadcrumb m-0">
+    <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboards</a></li>
+    <li class="breadcrumb-item active font-size-40">Sale List</li>
+</ol>{% endblock breadcrumb %}
+
+{% block content %}
+<script src="{% static 'assets/js/sale_delete.js' %}" defer></script>
+<!-- delete modal -->
+<div id="deleteEmp" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="modal-header"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <p class="alert alert-danger text-center font-size-18">
+                    Are you sure you want to delete this sale?
+                </p>
+                <form action="{% url 'sale-delete' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="sale-id" value="" id="sale_id">
+                    <button class="btn btn-danger font-size-18">Yes</button>
+                    <button class="btn btn-info font-size-18" data-dismiss="modal" type="button">No</button>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!-- end delete modal -->
+<div class="row">
+    <div class="col-xl-10 m-auto">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h4 class="card-title font-size-22">Sale List</h4>
+                    </div>
+                    <div class="col-lg-6">
+                        <a href="{% url 'sale-create' %}" class="btn btn-lg btn-primary float-right rounded-xl mb-4">New Sale
+                            <i class="bx bx-plus font-size-24 align-middle ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+                
+
+                <table id="datatable" class="table table-bordered dt-responsive nowrap"
+                    style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr style="text-align:center">
+                            <th class="font-size-17">ID</th>
+                            <th class="font-size-17">Product Name</th>
+                            
+                            <th class="font-size-17">Customer</th>
+                            <th class="font-size-17">Kind Sale</th>
+                            <th class="font-size-17">Quantity</th>
+                            <th class="font-size-17">Unit</th>
+                            <th class="font-size-17">Price</th>
+                            <th class="font-size-17">Total Price</th>
+                            <th class="font-size-17">Paid</th>
+                            <th class="font-size-17">Remain</th>
+                            <th class="font-size-17">Date Sale</th>
+                            <th class="font-size-17">Date Send</th>
+                            <th class="font-size-17 ">Action</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                       
+                        {% for sale in sales %}
+                        <tr style="text-align:center" >  
+                        <td class="font-size-15">{{forloop.counter}}</td>
+                        <td class="font-size-15">{{ sale.product.product_name}}</td>
+                        <td class="font-size-15">{{ sale.customer.name}}</td>
+                        <td class="font-size-15">{{ sale.type_of_sale}}</td>
+                        <td class="font-size-15">{{ sale.quantity}}</td>
+                        <td class="font-size-15">{{ sale.unit}}</td>
+                        <td class="font-size-15">{{ sale.price}}</td>
+                        <td class="font-size-15">{{ sale.total_price}}</td>
+                        <td class="font-size-15">{{ sale.recieved_amount}}</td>
+                        <td class="font-size-15">{{ sale.remained_amount}}</td>
+                        <td class="font-size-15">{{ sale.date_of_sale}}</td>
+                        <td class="font-size-15">{{ sale.date_of_send}}</td>
+                       
+                                                
+                        <td style="text-align:center">
+                            <a href="{% url 'sale-update' sale.pk %}" class="btn btn-primary btn-md center">
+                                <i class="bx bx-edit font-size-24"></i>
+                            </a>
+                            <button 
+                            data-toggle="modal"
+                            data-target="#deleteEmp"
+                            data-id="{{sale.pk}}"
+                            data-name="{{sale.name}}"
+                            class="btn btn-danger btn-md delete-btns">
+                                <i class="bx bx-trash font-size-24"></i>
+                            </button>
+                            <a href="{% url 'sale-detail' sale.pk %}" class="btn btn-info btn-md ">
+                                <i class="bx bx-dots-horizontal-rounded font-size-24"></i>
+                            </a>
+                        </td>
+                    </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div> 
+</div><!-- end col -->
+
+
+{% endblock content %}

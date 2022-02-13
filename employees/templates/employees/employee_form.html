@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}
+Create Employee
+{% endblock title %}
+
+{% block page_title %}
+Create Employee
+{% endblock page_title %}
+{% block breadcrumb %}
+<ol class="breadcrumb m-0">
+    <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboards</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'employee-list' %}">Employee List</a></li>
+    
+    {% if employee %}
+    <li class="breadcrumb-item active">Update Employee</li>
+    {% else %}
+    <li class="breadcrumb-item active">Create Employee</li>
+    
+    {% endif %}
+</ol>{% endblock breadcrumb %}
+
+{% block content %}
+{% include 'links/css/css.html' %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+            <div class="card-body">
+                <div>
+                    <a href="{% url 'employee-list' %}" class="btn btn-dark btn-lg mb-4">Go Back
+                        <i class="bx bx-arrow-left"></i>
+                    </a>
+                </div>
+                {% if employee %}
+                <h2 class="mb-2">Update Employee</h2>
+                {% else %}
+                <h2 class="mb-2">Create New Employee</h2>
+                {% endif %}
+                <hr>
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label for="" class="font-size-17">First Name</label>
+                            {% render_field forms.employee_name class="form-control font-size-16" placeholder="Ali" %}
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="" class="font-size-17">Last Name</label>
+                            {% render_field forms.last_name class="form-control font-size-16" placeholder="Karimi" %}
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="" class="font-size-17">Phone Number</label>
+                            {% render_field forms.phone class="form-control font-size-16" placeholder="Type your phone number" %}
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="" class="font-size-17">National Cart</label>
+                            {% render_field forms.tazkira class="form-control font-size-16" placeholder="Your national cart ID" %}
+                        </div>
+                        
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-lg-3">
+                            <label for="" class="font-size-17">Hire Date</label>
+                            {% render_field forms.hire_date class="form-control font-size-16" type="date" %}
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="" class="font-size-17">Salary</label>
+                            {% render_field forms.salary type="number" class="form-control font-size-16" placeholder="Employee Salary" %}
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="" class="font-size-17">Address</label>
+                            {% render_field forms.address class="form-control font-size-16" placeholder="Employee Address" %}
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="" class="font-size-17">Image</label>
+                            {% render_field forms.photo class="form-control font-size-16" type="file" %}
+                        </div>
+                        
+                    </div>
+                    <button class="btn btn-primary btn-md font-size-18 mt-2">Save</button>
+                </form>
+            </div>
+            </div>
+
+         </div>
+        </div>
+    </div>
+</div>
+{% include 'links/js/js.html' %}
+{% endblock content %}

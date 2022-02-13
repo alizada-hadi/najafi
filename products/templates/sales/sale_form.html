@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}
+Create Sale
+{% endblock title %}
+
+{% block page_title %}
+Create Sale
+{% endblock page_title %}
+{% block breadcrumb %}
+<ol class="breadcrumb m-0">
+    <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboards</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'sale-list' %}">Sale List</a></li>
+    
+    {% if sales %}
+    <li class="breadcrumb-item active">Update Sale</li>
+    {% else %}
+    <li class="breadcrumb-item active">Create Sale</li>
+    
+    {% endif %}
+</ol>{% endblock breadcrumb %}
+
+{% block content %}
+{% include 'links/css/css.html' %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+            <div class="card-body">
+                <div>
+                    <a href="{% url 'sale-list' %}" class="btn btn-dark btn-lg mb-4">Go Back
+                        <i class="bx bx-arrow-left"></i>
+                    </a>
+                </div>
+                {% if sale %}
+                <h2 class="mb-2">Update Sale</h2>
+                {% else %}
+                <h2 class="mb-2">Create New Sale</h2>
+                {% endif %}
+                <hr>
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label for="" class="font-size-17">Product Name</label>
+                            {% render_field forms.product class="form-control font-size-16" placeholder="type your product name" %}
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="" class="font-size-17">Customer Name</label>
+                            {% render_field forms.customer class="form-control font-size-16" placeholder="type your customer name" %}
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="" class="font-size-17">Kind Sale</label>
+                            {% render_field forms.type_of_sale class="form-control font-size-16" placeholder="Type your buyer name" %}
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="" class="font-size-17">Quantity</label>
+                            {% render_field forms.quantity class="form-control font-size-16" placeholder="type your Amount" %}
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="" class="font-size-17">Unit</label>
+                            {% render_field forms.unite class="form-control font-size-16" %}
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="" class="font-size-17">Price</label>
+                            {% render_field forms.price class="form-control font-size-16" placeholder="type the location product" %}
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="" class="font-size-17">Total</label>
+                            {% render_field forms.total_price class="form-control font-size-16" placeholder="type the location product" %}
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="" class="font-size-17">Paid</label>
+                            {% render_field forms.recieved_amount class="form-control font-size-16" placeholder="type the location product" %}
+                        </div><div class="col-lg-3">
+                            <label for="" class="font-size-17">Remain</label>
+                            {% render_field forms.remained_amount class="form-control font-size-16" placeholder="type the location product" %}
+                        </div><div class="col-lg-3">
+                            <label for="" class="font-size-17">Date Sale</label>
+                            {% render_field forms.date_of_sale class="form-control font-size-16" placeholder="type the location product" %}
+                        </div><div class="col-lg-3">
+                            <label for="" class="font-size-17">Date Send</label>
+                            {% render_field forms.date_of_send class="form-control font-size-16" placeholder="type the location product" %}
+                        </div>
+                       
+                
+                        
+                    </div>
+                    {% comment %} <div class="row mt-2">
+                        <div class="col-lg-3">
+                            <label for="" class="font-size-17">Buy Date</label>
+                            {% render_field forms.date class="form-control font-size-16" type="date" %}
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="" class="font-size-17">Price</label>
+                            {% render_field forms.price type="number" class="form-control font-size-16" placeholder="type your price product" %}
+                        </div>
+                        
+                        <div class="col-lg-3">
+                            <label for="" class="font-size-17">Paid Amount</label>
+                            {% render_field forms.paid_amount class="form-control font-size-16" placeholder="type your paid amount" %}
+                        </div>
+                       
+                        <div class="col-lg-3">
+                            <label for="" class="font-size-17">Description</label>
+                            {% render_field forms.description class="form-control font-size-16" placeholder="type your description" %}
+                        </div>
+                    </div> {% endcomment %}
+                    <button class="btn btn-primary btn-md font-size-18 mt-2">Save</button>
+                </form>
+            </div>
+            </div>
+
+         </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
