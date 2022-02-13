@@ -50,7 +50,7 @@
                                         <div class="card my-card shadow">
                                             <div class="card-body text-center">
                                                 <h4>Total Amount <i class="bx bx-money font-size-24 align-middle"></i></h4>
-                                                <h3>{{ total }}</h3>
+                                                <h3>{{ total|floatformat:"2" }}</h3>
                                                 
                                             </div>
                                         </div>
@@ -61,7 +61,7 @@
                                         <div class="card my-card shadow">
                                             <div class="card-body text-center">
                                                 <h4>Paid Amount <i class="bx bx-money font-size-24 align-middle"></i></h4>
-                                                <h3>{{paid}}</h3>
+                                                <h3>{{paid|floatformat:"2"}}</h3>
                                             </div>
                                         </div>
                                     </a>
@@ -72,7 +72,7 @@
                                         <div class="card my-card shadow">
                                             <div class="card-body text-center">
                                                 <h4>Remined Amount <i  class="bx bx-money font-size-24 align-middle"></i></h4>
-                                                <h3>{{ remain }}</h3>
+                                                <h3>{{ remain|floatformat:"2" }}</h3>
                                             </div>
                                         </div>
                                     </a>
@@ -83,7 +83,19 @@
                 </div>
             </div>
                <!-- the end of topside -->
-               
+               <form action="" method="POST">
+                   {% csrf_token %}
+                   {{formset.management_form}}
+                   <div class="row">
+                       {% for form in formset %}
+                            <div class="d-flex">
+                                {{form|crispy}}
+                            </div>
+                       {% endfor %}
+                   </div>
+
+                   <button class="btn btn-primary btn-lg" type="submit">Save</button>
+               </form>
             </div>
         </div>
     </dic>

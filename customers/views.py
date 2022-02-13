@@ -1,7 +1,7 @@
 
 from django.shortcuts import redirect, render
 
-from products.models import Buy
+from products.models import Buy, Product, Sale
 from .forms import CustomerForm, FarmerForm
 from django.contrib import messages
 from .models import Customer, Farmer
@@ -10,6 +10,9 @@ from django.forms import inlineformset_factory
 
 FarmerFormSet = inlineformset_factory(
     Farmer, Buy, fields=("name", "buyer", "quantity", "unite", "address", "date", "price", "paid_amount", "description",), extra=1, can_delete=False
+)
+CustomerFormSet = inlineformset_factory(
+    Customer, Sale, fields=("product", "type_of_sale", "quantity", "unit", "price", "recieved_amount", "date_of_send"), extra=1, can_delete=False
 )
 
 
@@ -53,8 +56,7 @@ def customer_update_view(request, pk):
 
 def customer_delete_view(request):
     if request.method == 'POST':
-        id = request.POST.get("customer-id")
-        
+        id = request.POST.get("customer-id")  
         customer = Customer.objects.get(pk = id)
         customer.delete()
     return redirect("customer-list")
@@ -67,17 +69,35 @@ def customer_detail_view(request, pk):
     paid = 0
     remain = 0
     customers = Customer.objects.all()
+    
     for i in customers1.sale_set.all():
-        total = i.total_price 
-        paid = i.recieved_amount
-        remain = i.remained_amount
+        total += i.total_price 
+        paid += i.recieved_amount
+        remain += i.remained_amount
+    if request.method == "POST":
+        formset = CustomerFormSet(request.POST, instance=customers1)
+        if formset.is_valid():
+            products = formset.save(commit=False)
+            for product in products:
+                pro = Product.objects.get(pk=product.product.id)
+                if product.unit != pro.unite:
+                    if pro.unite == "SER" and product.unit == "KG":
+                        result = product.quantity // 7
+                        pro.quantity = pro.quantity - result
+                else:
+                    pro.quantity = pro.quantity - product.quantity
+                pro.save()
+                product.save()
+    else:
+        formset = CustomerFormSet(instance=customers1)
     context ={
         "total_sale": total_sale,
         "total": total,
         "paid": paid,
         "remain": remain,
+        "formset" : formset
     }
-    return render(request, "customers/customer_detail.html" )
+    return render(request, "customers/customer_detail.html" , context)
 
 
 def farmer_list_view(request):
@@ -120,9 +140,9 @@ def farmer_detail_view(request, pk):
     farmers = Farmer.objects.get(pk=pk)
     buys = farmers.buy_set.all()
     total_buy = buys.count()
-    total = 0
-    paid = 0
-    remain = 0
+    total = 1
+    paid = 1
+    remain = 1
     if request.method == "POST":
         formset = FarmerFormSet(request.POST, instance=farmers)
         if formset.is_valid():
@@ -132,9 +152,9 @@ def farmer_detail_view(request, pk):
         formset = FarmerFormSet(instance=farmers)
 
     for i in farmers.buy_set.all():
-        total = i.total_amount
-        paid = i.paid_amount
-        remain = i.remined_amount
+        total += i.total_amount
+        paid += i.paid_amount
+        remain += i.remined_amount
 
     context = {
         'total_buy': total_buy,

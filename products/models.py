@@ -22,7 +22,7 @@ class Buy(models.Model):
     name = models.CharField(max_length=200)
     farmer = models.ForeignKey(Farmer, on_delete=models.SET_NULL, null=True)
     buyer = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
-    quantity = models.DecimalField(decimal_places=4, max_digits=8, default=0)
+    quantity = models.DecimalField(decimal_places=2, max_digits=8, default=0)
     unite = models.CharField(max_length=20, choices=UNITE, default="KG")
     address = models.CharField(max_length=500)
     date = models.DateField()
@@ -82,7 +82,7 @@ class Product(models.Model):
          super().save(*args, **kwargs)
          
     def __str__(self):
-        return self.product_name_en
+        return f"{self.product_name_en} - {self.quality} - {self.quality1} - {self.quantity} {self.unite}"
 
 
 class Sale(models.Model):
@@ -98,23 +98,23 @@ class Sale(models.Model):
     )
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    type_of_sale = models.CharField(max_length=20, choices=SALE_TYPE, default="local")
-    quantity = models.DecimalField(decimal_places=2, max_digits=6, default=0)
+    type_of_sale = models.CharField(max_length=20, choices=SALE_TYPE, default="local", verbose_name="Type")
+    quantity = models.DecimalField(decimal_places=4, max_digits=8, default=0)
     unit = models.CharField(max_length=20, choices=UNITE, default="KG")
-    price = models.DecimalField(decimal_places=2, max_digits=6, default=0)
+    price = models.DecimalField(decimal_places=4, max_digits=10, default=0)
     # 
-    total_price = models.DecimalField(decimal_places=2, max_digits=6, default=0)
-    recieved_amount = models.DecimalField(decimal_places=2, max_digits=6, default=0)
-    remained_amount = models.DecimalField(decimal_places=2, max_digits=6, default=0)
-    date_of_sale = models.DateField(null=True, blank=True)
+    total_price = models.DecimalField(decimal_places=4, max_digits=10, default=0)
+    recieved_amount = models.DecimalField(decimal_places=4, max_digits=10, default=0)
+    remained_amount = models.DecimalField(decimal_places=4, max_digits=10, default=0)
+    date_of_sale = models.DateField(auto_now_add=True)
     date_of_send = models.DateTimeField(null=True, blank=True)
 
 
     def save(self, *args, **kwargs):
         if not self.total_price:
             self.total_price = self.quantity * self.price
-        if not self.recieved_amount:
-            self.recieved_amount = self.total_price - self.recieved_amount
+        if not self.remained_amount:
+            self.remained_amount = self.total_price - self.recieved_amount
         
         super().save(*args, **kwargs)
 

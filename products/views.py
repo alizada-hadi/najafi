@@ -6,14 +6,28 @@ from django.contrib.auth.decorators import login_required
 from .forms import BuyForm, SaleForm, ProductForm
 from django.contrib import messages
 from products.models import Buy, Product,Sale
+from django.db.models import Q
+
+from django.core.paginator import Paginator, EmptyPage
 # Create your views here.
 
-def index(request):
-    products = Product.objects.all()
+def index(request, page=1):
+    q = request.GET.get("query") if  request.GET.get("query") != None else ""
+    products = Product.objects.filter(
+        Q(product_name_en__icontains=q) | Q(product_name_fa__icontains=q) | Q(quality__icontains=q)
+    )
+    # pagination
+    paginator = Paginator(products, 6)
+    
+
+    try:
+        products = paginator.page(page)
+    except EmptyPage:
+        products = paginator.page(paginator.num_pages)
+
     context = {
         "products": products
     } 
-
     return render(request, "products/product_list.html", context)
 
 def product_create_view(request):

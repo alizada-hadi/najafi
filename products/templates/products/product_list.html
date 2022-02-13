@@ -95,27 +95,30 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-8 col-sm-6">
-                                        <form class="mt-4 mt-sm-0 float-sm-right form-inline">
-                                            <div class="search-box mr-2">
-                                                <div class="position-relative">
-                                                    <input type="text" class="form-control border-0" placeholder="Search...">
-                                                    <i class="bx bx-search-alt search-icon"></i>
-                                                </div>
+                                        <div class="row">
+
+                                            
+                                            <div class="col-lg-6 float-left">
+                                                <form class="mt-4 mt-sm-0 float-sm-right form-inline" action="{% url 'product-list' 1 %}" method="GET">
+                                                    <div class="search-box mr-2">
+                                                        <div class="position-relative">
+                                                            <input type="text" name="query" class="form-control border shadow-sm font-size-15" placeholder="Search...">
+                                                            <i class="bx bx-search-alt search-icon"></i>
+                                                        </div>
+                                                    </div>
+                                                </form>
                                             </div>
-                                            
-                                            
-                                            <ul class="nav nav-pills product-view-nav">
-                                                <li class="nav-item">
-                                                    <a class="nav-link active" href="{% url 'product-create' %}"><i class="bx bx-plus font-size-24 align-middle"></i></a>
-                                                </li>
-                                                
-                                            </ul>
-                                        </form>
+                                            <div class="col-lg-6">
+                                                <ul class="nav nav-pills product-view-nav float-right">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link active" href="{% url 'product-create' %}"><i class="bx bx-plus font-size-24 align-middle"></i></a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    
-                                    
                                     {% for product in products %}
                                     <div class="col-xl-4 col-sm-6">
                                         <div class="card">
@@ -125,13 +128,11 @@
                                                     <div class="avatar-sm product-ribbon">
                                                         
                                                     </div>
-                                                    <img src="{{product.photo.url}}" alt="" class="img-fluid mx-auto d-block">
+                                                    <img src="{{product.photo.url}}" alt="" class="img-fluid mx-auto rounded-sm d-block" style="width: 100%;">
                                                 </div>
                                                 <div class="mt-4 text-center">
-                                                    <h5 class="mb-3 text-truncate"><a href="#" class="text-dark">{{product.product_name_en}}</a></h5>
-                                                    
-                                                    
-                                                    <h5 class="my-0"><span class=" mr-2">total price</span> <b>{{product.total_price}}</b></h5>
+                                                    <h5 class="mb-3 text-truncate"><a href="#" class="text-dark">{{product.product_name_en.title}}</a></h5>
+                                                    <h5 class="my-0"><span class=" mr-2">In Stock</span> <b>{{product.quantity|floatformat:"2"}} {{product.unite}}</b></h5>
 
                                                 </div>
                                             </div>
@@ -143,28 +144,38 @@
 
                                 <div class="row">
                                     <div class="col-lg-12">
+                                        
                                         <ul class="pagination pagination-rounded justify-content-center mt-4">
+                                            {% if products.has_next %}
+                                            <li class="page-item">
+                                                <a href="{% url 'product-list' products.next_page_number %}" class="page-link align-middle"><i class="mdi mdi-chevron-right font-size-20"></i></a>
+                                            </li>
+                                            {% else %}
                                             <li class="page-item disabled">
-                                                <a href="#" class="page-link"><i class="mdi mdi-chevron-left"></i></a>
+                                                <a href="" class="page-link align-middle"><i class="mdi mdi-chevron-right font-size-20"></i></a>
                                             </li>
-                                            <li class="page-item">
-                                                <a href="#" class="page-link">1</a>
+                                            {% endif %}
+                                            {% for i in products.paginator.page_range %}
+                                                {% if products.number == i %}
+                                                <li class="page-item active">
+                                                    <a href="" class="page-link">{{i}}</a>
+                                                </li>
+                                                {% else %}
+                                                <li class="page-item">
+                                                    <a href="{% url 'product-list' i %}" class="page-link">{{i}}</a>
+                                                </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                            
+                                           {% if products.has_previous %}
+                                           <li class="page-item">
+                                            <a href="{% url 'product-list' products.previous_page_number %}" class="page-link"><i class="mdi mdi-chevron-left font-size-20"></i></a>
                                             </li>
-                                            <li class="page-item active">
-                                                <a href="#" class="page-link">2</a>
-                                            </li>
-                                            <li class="page-item">
-                                                <a href="#" class="page-link">3</a>
-                                            </li>
-                                            <li class="page-item">
-                                                <a href="#" class="page-link">4</a>
-                                            </li>
-                                            <li class="page-item">
-                                                <a href="#" class="page-link">5</a>
-                                            </li>
-                                            <li class="page-item">
-                                                <a href="#" class="page-link"><i class="mdi mdi-chevron-right"></i></a>
-                                            </li>
+                                            {% else %}
+                                            <li class="page-item disabled">
+                                                <a href="" class="page-link"><i class="mdi mdi-chevron-left font-size-20"></i></a>
+                                                </li>
+                                           {% endif %}
                                         </ul>
                                     </div>
                                 </div>
